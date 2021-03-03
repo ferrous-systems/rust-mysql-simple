@@ -394,7 +394,7 @@ impl Conn {
         Ok(())
     }
 
-    fn read_packet(&mut self) -> Result<Vec<u8>> {
+    pub fn read_packet(&mut self) -> Result<Vec<u8>> {
         let data = self
             .stream_mut()
             .next()
@@ -414,7 +414,7 @@ impl Conn {
         self.read_packet().map(|_| ())
     }
 
-    fn write_packet<T: Into<Vec<u8>>>(&mut self, data: T) -> Result<()> {
+    pub fn write_packet<T: Into<Vec<u8>>>(&mut self, data: T) -> Result<()> {
         self.stream_mut().send(data.into())?;
         Ok(())
     }
@@ -703,7 +703,7 @@ impl Conn {
         self.stream_mut().codec_mut().sync_seq_id();
     }
 
-    fn write_command_raw<T: Into<Vec<u8>>>(&mut self, body: T) -> Result<()> {
+    pub fn write_command_raw<T: Into<Vec<u8>>>(&mut self, body: T) -> Result<()> {
         let body = body.into();
         self.reset_seq_id();
         self.0.last_command = body[0];
